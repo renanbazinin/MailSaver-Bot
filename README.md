@@ -16,7 +16,10 @@ This application connects to your Gmail account, downloads large emails based on
 
 ### Required Libraries
 
-Install the required Python libraries with the following commands:
+- **Standard Libraries**:
+  - `imaplib`, `email`, `os`, `zipfile`, `datetime`, `re`, `tkinter`
+
+- **External Libraries** (install with pip):
 
 ```bash
 pip install beautifulsoup4 requests
