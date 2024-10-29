@@ -30,7 +30,7 @@ pip install beautifulsoup4 requests
 1. **Clone or Download the Repository**: 
 
    ```bash
-   git clone https://github.com/renanbazinin/Email-Downloader-and-label-for-delete.git
+   git clone https://github.com/renanbazinin/MailSaver-Bot.git
    ```
 
    Or download the ZIP file and extract it.
