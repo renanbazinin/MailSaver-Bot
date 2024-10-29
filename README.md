@@ -40,7 +40,7 @@ pip install beautifulsoup4 requests
    Navigate to the directory and start the application:
 
    ```bash
-   python email_downloader.py
+   python emailDownGUI.py
    ```
 
 ---
