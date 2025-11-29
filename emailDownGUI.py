@@ -2,11 +2,11 @@ import imaplib
 import email
 from email.header import decode_header
 import os
-import zipfile
+
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
-import requests
+
 import tkinter as tk
 from tkinter import messagebox, filedialog, scrolledtext
 
