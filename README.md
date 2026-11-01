@@ -68,6 +68,20 @@ The application displays live logs as it processes each email. This log includes
 
 ## Features
 
+### Attachment filename safety
+
+Attachments must have plain filenames. Paths, Windows device names, alternate
+data streams, and invalid filename characters are rejected. If an attachment
+cannot be saved safely, downloading stops with an error and the current email
+is not labeled for deletion. Existing attachments and inline images are kept;
+duplicate filenames receive a numeric suffix.
+
+Run the regression tests after installing the application dependencies:
+
+```bash
+python -m unittest -v test_attachment_storage
+```
+
 - **Download Attachments and Content**: The app downloads email attachments and saves email content in a text file, even when the content is HTML-based.
 - **Unique Filename Handling**: For emails with multiple attachments of the same name, the app automatically appends numbers to filenames to prevent overwriting.
 - **Inline Images**: The app detects and saves inline images embedded in HTML emails.

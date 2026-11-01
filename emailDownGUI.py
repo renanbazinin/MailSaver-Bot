@@ -3,6 +3,8 @@ import email
 from email.header import decode_header
 import os
 
+from attachment_storage import save_attachment_file
+
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
@@ -15,24 +17,12 @@ from tkinter import messagebox, filedialog, scrolledtext
 # Imports and GUI setup (same as your previous code)
 
 
-def save_attachment(filepath, payload, log_text):
-    """
-    Save an attachment file, avoiding overwriting by appending numbers if a file with the same name exists.
-    """
-    base, extension = os.path.splitext(filepath)
-    counter = 1
-    # Check if the file exists; if so, add a number to make it unique
-    while os.path.exists(filepath):
-        filepath = f"{base}_{counter}{extension}"
-        counter += 1
-
-    with open(filepath, "wb") as f:
-        f.write(payload)
+def save_attachment(folder_name, filename, payload, log_text):
+    """Save an attachment safely and report its final, unique path."""
+    filepath = save_attachment_file(folder_name, filename, payload)
     log_text.insert(tk.END, f"Saved attachment: {filepath}\n")
-    log_text.see(tk.END)  # Auto-scroll to the end
+    log_text.see(tk.END)
     log_text.update_idletasks()
-
-
 
 
 def download_emails(username, password, base_dir, label_name, size_threshold_mb, n_emails, log_text):
@@ -117,18 +107,12 @@ def download_emails(username, password, base_dir, label_name, size_threshold_mb,
                                         if isinstance(filename, bytes):
                                             filename = filename.decode()
 
-                                        filepath = os.path.join(folder_name, filename)
-                                        save_attachment(filepath, part.get_payload(decode=True), log_text)
+                                        save_attachment(folder_name, filename, part.get_payload(decode=True), log_text)
 
                                 elif content_type.startswith("image/") and "attachment" not in content_disposition:
                                     # Inline image handling
                                     filename = f"inline_image_{inline_image_count}.{content_type.split('/')[-1]}"
-                                    filepath = os.path.join(folder_name, filename)
-                                    with open(filepath, "wb") as f:
-                                        f.write(part.get_payload(decode=True))
-                                    log_text.insert(tk.END, f"Saved inline image: {filepath}\n")
-                                    log_text.see(tk.END)
-                                    log_text.update_idletasks()
+                                    save_attachment(folder_name, filename, part.get_payload(decode=True), log_text)
                                     inline_image_count += 1
                         else:
                             body = msg.get_payload(decode=True).decode(msg.get_content_charset() or "utf-8")
@@ -234,4 +218,5 @@ def run_gui():
 
 # Run the GUI
 
-run_gui()
+if __name__ == "__main__":
+    run_gui()
